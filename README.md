@@ -1,5 +1,5 @@
 # sensor
-<b>  ds1820s test  data 1day--> gmail send
+## ds1820s test  data 1day--> gmail send
 
 dli@dli-desktop:~$ python3 ds1820s_celcius.py
 온도 로깅을 시작합니다...
