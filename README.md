@@ -1,4 +1,8 @@
-# sensor
+#  ds1820s temp sensor
+circuit
+arduino 5v-> sensor 5v
+arduino gnd-> sensor gnd
+data ->  arduino 10 pin
 ## ds1820s test  data 1day--> gmail send
 
 dli@dli-desktop:~$ python3 ds1820s_celcius.py
