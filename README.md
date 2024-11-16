@@ -112,4 +112,192 @@ void loop() {
 
 ![image](https://github.com/user-attachments/assets/74511674-ef24-40c2-b67d-d0b7c703a241)
 
+discord code
+```
+import serial
+import time
+import requests
+import json
+from datetime import datetime
+import glob
+import sys
 
+def find_serial_port():
+    """사용 가능한 시리얼 포트 찾기"""
+    ports = glob.glob('/dev/tty[A-Za-z]*')
+    available_ports = []
+    
+    for port in ports:
+        try:
+            s = serial.Serial(port)
+            s.close()
+            available_ports.append(port)
+        except (OSError, serial.SerialException):
+            pass
+    
+    if not available_ports:
+        print("사용 가능한 시리얼 포트를 찾을 수 없습니다.")
+        print("다음을 확인해주세요:")
+        print("1. 센서가 제대로 연결되어 있는지")
+        print("2. 사용자가 dialout 그룹에 속해있는지")
+        print("3. 포트 권한이 올바른지")
+        sys.exit(1)
+    
+    print("발견된 포트들:", available_ports)
+    return available_ports[0]  # 첫 번째 사용 가능한 포트 반환
+
+# Discord 웹훅 URL 설정
+WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL"  # Discord 웹훅 URL 입력
+
+def init_serial():
+    """시리얼 연결 초기화"""
+    port = find_serial_port()
+    print(f"연결 시도 중인 포트: {port}")
+    
+    try:
+        ser = serial.Serial(
+            port=port,
+            baudrate=9600,
+            timeout=1
+        )
+        print(f"시리얼 포트 {port} 연결 성공!")
+        return ser
+    except serial.SerialException as e:
+        print(f"시리얼 포트 연결 실패: {str(e)}")
+        sys.exit(1)
+
+def send_discord_alert(co2_level, status):
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    if co2_level < 700:
+        color = 0x00FF00
+    elif co2_level < 1000:
+        color = 0xFFFF00
+    else:
+        color = 0xFF0000
+
+    data = {
+        "embeds": [{
+            "title": "CO2 센서 알림",
+            "description": f"CO2 농도가 {status}입니다.",
+            "color": color,
+            "fields": [
+                {
+                    "name": "CO2 농도",
+                    "value": f"{co2_level} ppm",
+                    "inline": True
+                },
+                {
+                    "name": "상태",
+                    "value": status,
+                    "inline": True
+                },
+                {
+                    "name": "측정 시간",
+                    "value": current_time,
+                    "inline": False
+                }
+            ],
+            "footer": {
+                "text": "CO2 모니터링 시스템"
+            }
+        }]
+    }
+
+    try:
+        response = requests.post(WEBHOOK_URL, json=data)
+        if response.status_code == 204:
+            print(f"Discord 알림 전송 성공 - CO2: {co2_level}ppm")
+        else:
+            print(f"Discord 알림 전송 실패: {response.status_code}")
+    except Exception as e:
+        print(f"Discord 알림 전송 중 오류: {str(e)}")
+
+def read_co2(ser):
+    """CO2 값 읽기"""
+    command = bytearray([0x11, 0x01, 0x01, 0xED])
+    ser.write(command)
+    time.sleep(0.1)
+    
+    if ser.in_waiting >= 7:
+        response = ser.read(7)
+        if len(response) >= 7:
+            co2 = (response[3] * 256) + response[4]
+            return co2
+    return -1
+
+def get_status(co2_level):
+    if co2_level < 700:
+        return "좋음"
+    elif co2_level < 1000:
+        return "보통"
+    elif co2_level < 2000:
+        return "환기 필요"
+    else:
+        return "즉시 환기 필요!"
+
+def main():
+    ser = init_serial()
+    last_alert_time = 0
+    ALERT_INTERVAL = 600  # 10분
+    
+    print("CO2 모니터링 시작...")
+    send_discord_alert(0, "모니터링 시작")
+    
+    while True:
+        try:
+            co2 = read_co2(ser)
+            current_time = time.time()
+            
+            if co2 > 0:
+                status = get_status(co2)
+                print(f"CO2: {co2} ppm - 상태: {status}")
+                
+                if (current_time - last_alert_time) >= ALERT_INTERVAL:
+                    send_discord_alert(co2, status)
+                    last_alert_time = current_time
+                elif co2 >= 2000 and (current_time - last_alert_time) >= 60:
+                    send_discord_alert(co2, "긴급: 즉시 환기 필요!")
+                    last_alert_time = current_time
+                
+            print("-" * 30)
+            time.sleep(10)
+            
+        except KeyboardInterrupt:
+            print("\n프로그램 종료")
+            break
+        except Exception as e:
+            print(f"오류 발생: {str(e)}")
+            time.sleep(5)
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        print(f"프로그램 실행 중 오류 발생: {str(e)}")
+    finally:
+        print("프로그램 종료")
+```
+<b>  Discord 웹훅 URL을 얻는 방법
+1. Discord 웹훅 생성 방법:
+   1. Discord 서버에서 설정(⚙️) 클릭
+   2. 앱 통합 선택
+   3. 웹후크 선택
+   4. 새 웹후크 클릭
+   5. 이름 입력 (예: "CO2 알림")
+   6. 채널 선택
+   7. 웹후크 URL 복사
+
+2. 코드에서 변경할 부분:
+```python
+# 이 부분을
+WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL"
+
+# 복사한 웹훅 URL로 변경 (예시)
+WEBHOOK_URL = "https://discord.com/api/webhooks/123456789/abcdefghijklmnopqrstuvwxyz"
+```
+
+웹훅 URL은 대략 이런 형태입니다:
+`https://discord.com/api/webhooks/[ID]/[TOKEN]`
+
+웹훅을 생성하고 URL을 알려주시면, 제가 코드에 적용하는 것을 도와드리겠습니다!
