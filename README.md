@@ -3,9 +3,10 @@
 ![image](https://github.com/user-attachments/assets/ea840679-0ecc-4138-a7ab-7be90d25e6b7)
 ![image](https://github.com/user-attachments/assets/c03631c6-7399-44fa-b250-2f5411a1dc05)
 
-plegable terminal 
-![image](https://github.com/user-attachments/assets/e7368dd1-8458-4450-9188-a1c1c5130d25)
+##plegable terminal 
 
+
+![image](https://github.com/user-attachments/assets/e08cf3f7-3fcd-4e66-88f7-0ea15fd69789)
 
 
 <b>arduino -> lib
