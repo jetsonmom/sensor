@@ -5,7 +5,7 @@
 
 plegable terminal 
 ![image](https://github.com/user-attachments/assets/e7368dd1-8458-4450-9188-a1c1c5130d25)
-![image](https://github.com/user-attachments/assets/e08cf3f7-3fcd-4e66-88f7-0ea15fd69789)
+
 
 
 <b>arduino -> lib
