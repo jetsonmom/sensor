@@ -15,7 +15,7 @@ class TemperatureLogger:
     def __init__(self):
         # 이메일 설정
         self.email_address = "jmerrier0910@gmail.com"
-        self.app_password = "smvrcqoizxbxmyhy"
+        self.app_password = ""
         
         # 저장할 디렉토리 설정
         self.save_dir = os.path.join(os.path.expanduser("~"), "temperature_data")
