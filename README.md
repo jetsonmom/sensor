@@ -1,4 +1,13 @@
 #  ds1820s temp sensor
+
+![image](https://github.com/user-attachments/assets/ea840679-0ecc-4138-a7ab-7be90d25e6b7)
+![image](https://github.com/user-attachments/assets/c03631c6-7399-44fa-b250-2f5411a1dc05)
+
+<b>arduino -> lib
+
+onwire lib install
+
+
 circuit
 
 arduino 5v-> sensor 5v
