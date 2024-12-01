@@ -548,27 +548,61 @@ sudo systemctl disable nvgetty
 ```bash
 sudo usermod -a -G dialout $USER
 ```
-
-4. Python으로 데이터 읽기 예제:
+4, 설치.
+```
+sudo apt-get update
+sudo apt-get install python3-pip
+sudo apt-get install python3-serial
+```
+5, Python 패키지 설치:
+```
+pip3 install pyserial
+pip3 install numpy  # 데이터 처리용
+```
+6. CM1106 전용 파이썬 코드 예시::
+   
 ```python
 import serial
+import time
 
-# UART 포트 설정
-ser = serial.Serial(
-    port='/dev/ttyTHS1',  # Jetson Nano의 UART 포트
-    baudrate=9600,        # CM1106 기본 통신속도
-    bytesize=serial.EIGHTBITS,
-    parity=serial.PARITY_NONE,
-    stopbits=serial.STOPBITS_ONE
-)
+class CM1106:
+    def __init__(self, port='/dev/ttyTHS1', baudrate=9600):
+        self.serial = serial.Serial(
+            port=port,
+            baudrate=baudrate,
+            bytesize=serial.EIGHTBITS,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            timeout=2
+        )
+        
+    def read_co2(self):
+        # CM1106 명령어 형식: 0x11 0x01 0x01 0xED
+        cmd = b'\x11\x01\x01\xED'
+        self.serial.write(cmd)
+        time.sleep(0.1)
+        
+        if self.serial.in_waiting:
+            response = self.serial.read(8)  # 8바이트 응답
+            if len(response) == 8:
+                co2 = (response[3] << 8) + response[4]
+                return co2
+        return None
 
-try:
-    while True:
-        if ser.in_waiting > 0:
-            data = ser.read(ser.in_waiting)
-            print(data.hex())  # 데이터 출력
-except KeyboardInterrupt:
-    ser.close()
+    def close(self):
+        self.serial.close()
+
+# 사용 예시
+if __name__ == "__main__":
+    sensor = CM1106()
+    try:
+        while True:
+            co2_value = sensor.read_co2()
+            if co2_value is not None:
+                print(f"CO2 concentration: {co2_value} ppm")
+            time.sleep(2)
+    except KeyboardInterrupt:
+        sensor.close()
 ```
 
 주의사항:
