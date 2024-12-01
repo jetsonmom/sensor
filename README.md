@@ -605,9 +605,39 @@ if __name__ == "__main__":
         sensor.close()
 ```
 
-주의사항:
-- 전압 레벨이 맞는지 확인하세요 (3.3V vs 5V)
-- 필요한 경우 로직 레벨 컨버터를 사용하세요
-- pyserial 라이브러리 설치가 필요합니다: `pip install pyserial`
+<b> error
+이 에러는 '/dev/ttyTHS1' 포트에 대한 접근 권한이 없어서 발생하는 문제입니다. 다음 단계들을 순서대로 실행하여 해결할 수 있습니다:
 
-추가로 도움이 필요하신 부분이 있으신가요?
+1. 먼저 사용자를 dialout 그룹에 추가:
+```bash
+sudo usermod -a -G dialout $USER
+sudo usermod -a -G tty $USER
+```
+
+2. UART 포트의 권한 변경:
+```bash
+sudo chmod 666 /dev/ttyTHS1
+```
+
+3. nvgetty 서비스 중지 및 비활성화:
+```bash
+sudo systemctl stop nvgetty
+sudo systemctl disable nvgetty
+```
+
+4. 변경사항 적용을 위해 시스템 재부팅:
+```bash
+sudo reboot
+```
+
+5. 재부팅 후 포트 권한 확인:
+```bash
+ls -l /dev/ttyTHS1
+```
+
+이러한 단계들을 수행한 후 다시 프로그램을 실행해보세요. 만약 여전히 문제가 있다면, 다음 명령어로 직접 실행해보세요:
+```bash
+sudo python3 co2_jetson_only.py
+```
+
+계속 문제가 발생하면 알려주시기 바랍니다.
