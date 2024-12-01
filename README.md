@@ -530,9 +530,8 @@ WEBHOOK_URL = "https://discord.com/api/webhooks/123456789/abcdefghijklmnopqrstuv
 
 ![image](https://github.com/user-attachments/assets/07045f93-aa14-474d-ab94-5c5c1ca9a345)
 
+![image](https://github.com/user-attachments/assets/df6e5f16-c122-4279-95e8-eb6466a10c08)
 
-
-![cm1106-jetson-connection](https://github.com/user-attachments/assets/79fc9d4b-df80-4d18-8cda-54165164adc3)
 
   
 1. 연결 핀 매핑:
