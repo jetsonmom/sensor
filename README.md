@@ -530,8 +530,58 @@ WEBHOOK_URL = "https://discord.com/api/webhooks/123456789/abcdefghijklmnopqrstuv
 
 ![image](https://github.com/user-attachments/assets/07045f93-aa14-474d-ab94-5c5c1ca9a345)
 
-CM1106 센서를 Jetson Nano에 연결하는 방법을 설명해드리겠습니다:
+CM1106 센서를 Jetson Nano<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Jetson Nano Board -->
+  <rect x="400" y="50" width="300" height="200" fill="#75b47d" stroke="#333" stroke-width="2"/>
+  <text x="520" y="40" font-size="20" text-anchor="middle">Jetson Nano</text>
+  
+  <!-- CM1106 Sensor -->
+  <rect x="100" y="50" width="200" height="200" fill="#b4a075" stroke="#333" stroke-width="2"/>
+  <text x="200" y="40" font-size="20" text-anchor="middle">CM1106 Sensor</text>
+  
+  <!-- Pin labels for CM1106 -->
+  <circle cx="150" y="100" r="5" fill="#silver"/>
+  <text x="170" y="105" font-size="16">TX</text>
+  
+  <circle cx="150" y="140" r="5" fill="silver"/>
+  <text x="170" y="145" font-size="16">RX</text>
+  
+  <circle cx="150" y="180" r="5" fill="red"/>
+  <text x="170" y="185" font-size="16">5V</text>
+  
+  <circle cx="150" y="220" r="5" fill="black"/>
+  <text x="170" y="225" font-size="16">GND</text>
+  
+  <!-- Pin labels for Jetson -->
+  <circle cx="550" y="100" r="5" fill="silver"/>
+  <text x="570" y="105" font-size="16">RX (GPIO PIN)</text>
+  
+  <circle cx="550" y="140" r="5" fill="silver"/>
+  <text x="570" y="145" font-size="16">TX (GPIO PIN)</text>
+  
+  <circle cx="550" y="180" r="5" fill="red"/>
+  <text x="570" y="185" font-size="16">5V</text>
+  
+  <circle cx="550" y="220" r="5" fill="black"/>
+  <text x="570" y="225" font-size="16">GND</text>
+  
+  <!-- Connection lines -->
+  <path d="M155,100 L545,140" stroke="#blue" stroke-width="2" fill="none"/>
+  <path d="M155,140 L545,100" stroke="#green" stroke-width="2" fill="none"/>
+  <path d="M155,180 L545,180" stroke="red" stroke-width="2" fill="none"/>
+  <path d="M155,220 L545,220" stroke="black" stroke-width="2" fill="none"/>
+  
+  <!-- Legend -->
+  <text x="400" y="300" font-size="14" text-anchor="middle">TX → RX (데이터 전송)</text>
+  <text x="400" y="320" font-size="14" text-anchor="middle">RX → TX (데이터 수신)</text>
+  <text x="400" y="340" font-size="14" text-anchor="middle">5V (전원)</text>
+  <text x="400" y="360" font-size="14" text-anchor="middle">GND (접지)</text>
+</svg>
+에 연결하는 방법을 설명해드리겠습니다:
 
+![cm1106-jetson-connection](https://github.com/user-attachments/assets/79fc9d4b-df80-4d18-8cda-54165164adc3)
+
+  
 1. 연결 핀 매핑:
 - CM1106의 TX → Jetson Nano의 RX (UART RXD, GPIO PIN)
 - CM1106의 RX → Jetson Nano의 TX (UART TXD, GPIO PIN)
