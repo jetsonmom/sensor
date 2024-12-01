@@ -526,8 +526,9 @@ WEBHOOK_URL = "https://discord.com/api/webhooks/123456789/abcdefghijklmnopqrstuv
 
 
 
-=========================================================
-제슨나노와 이산화탄소 센서
+=================    제슨나노와 이산화탄소 센서     uart tx, rx ========================================
+
+![image](https://github.com/user-attachments/assets/07045f93-aa14-474d-ab94-5c5c1ca9a345)
 
 CM1106 센서를 Jetson Nano에 연결하는 방법을 설명해드리겠습니다:
 
