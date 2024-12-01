@@ -635,9 +635,9 @@ sudo reboot
 ls -l /dev/ttyTHS1
 ```
 
-이러한 단계들을 수행한 후 다시 프로그램을 실행해보세요. 만약 여전히 문제가 있다면, 다음 명령어로 직접 실행해보세요:
+
 ```bash
 sudo python3 co2_jetson_only.py
 ```
 
-계속 문제가 발생하면 알려주시기 바랍니다.
+
