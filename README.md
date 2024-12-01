@@ -523,3 +523,56 @@ WEBHOOK_URL = "https://discord.com/api/webhooks/123456789/abcdefghijklmnopqrstuv
 `https://discord.com/api/webhooks/[ID]/[TOKEN]`
 
 웹훅을 생성하고 URL을 알려주시면, 제가 코드에 적용하는 것을 도와드리겠습니다!
+
+
+
+=========================================================
+제슨나노와 이산화탄소 센서
+
+CM1106 센서를 Jetson Nano에 연결하는 방법을 설명해드리겠습니다:
+
+1. 연결 핀 매핑:
+- CM1106의 TX → Jetson Nano의 RX (UART RXD, GPIO PIN)
+- CM1106의 RX → Jetson Nano의 TX (UART TXD, GPIO PIN)
+- CM1106의 5V → Jetson Nano의 5V 전원
+- CM1106의 GND → Jetson Nano의 GND
+
+2. Jetson Nano에서 UART 포트 활성화:
+```bash
+sudo systemctl stop nvgetty
+sudo systemctl disable nvgetty
+```
+
+3. UART 권한 설정:
+```bash
+sudo usermod -a -G dialout $USER
+```
+
+4. Python으로 데이터 읽기 예제:
+```python
+import serial
+
+# UART 포트 설정
+ser = serial.Serial(
+    port='/dev/ttyTHS1',  # Jetson Nano의 UART 포트
+    baudrate=9600,        # CM1106 기본 통신속도
+    bytesize=serial.EIGHTBITS,
+    parity=serial.PARITY_NONE,
+    stopbits=serial.STOPBITS_ONE
+)
+
+try:
+    while True:
+        if ser.in_waiting > 0:
+            data = ser.read(ser.in_waiting)
+            print(data.hex())  # 데이터 출력
+except KeyboardInterrupt:
+    ser.close()
+```
+
+주의사항:
+- 전압 레벨이 맞는지 확인하세요 (3.3V vs 5V)
+- 필요한 경우 로직 레벨 컨버터를 사용하세요
+- pyserial 라이브러리 설치가 필요합니다: `pip install pyserial`
+
+추가로 도움이 필요하신 부분이 있으신가요?
