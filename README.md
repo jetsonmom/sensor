@@ -624,6 +624,27 @@ sudo chmod 666 /dev/ttyTHS1
 sudo systemctl stop nvgetty
 sudo systemctl disable nvgetty
 ```
+<b>  4번처럼 하는 이유. 
+nvgetty 관련 명령어들의 의미를 설명해드리겠습니다:
+
+`sudo systemctl stop nvgetty`와 `sudo systemctl disable nvgetty`는 Jetson Nano의 시리얼 통신과 관련된 중요한 설정입니다.
+
+1. `nvgetty`란?
+- NVIDIA Jetson의 시리얼 콘솔 서비스입니다
+- 기본적으로 UART 포트를 시리얼 콘솔용으로 사용하도록 설정되어 있습니다
+- 이 서비스가 실행 중이면 우리가 센서와 통신하려는 UART 포트를 독점하게 됩니다
+
+2. 각 명령어의 의미:
+- `sudo systemctl stop nvgetty`: 현재 실행 중인 nvgetty 서비스를 중지합니다
+- `sudo systemctl disable nvgetty`: 시스템 부팅 시 nvgetty 서비스가 자동으로 시작되지 않도록 비활성화합니다
+
+3. 왜 이 설정이 필요한가요?
+- CM1106 센서가 사용하려는 UART 포트를 nvgetty 서비스가 사용 중이면 충돌이 발생합니다
+- 센서와 정상적인 통신을 위해서는 이 서비스를 중지하고 비활성화해야 합니다
+- 이렇게 하면 UART 포트를 센서 통신용으로 전용으로 사용할 수 있습니다
+
+이 설정을 하지 않으면 센서와의 통신이 실패하거나 에러가 발생할 수 있습니다.
+
 
 4. 변경사항 적용을 위해 시스템 재부팅:
 ```bash
