@@ -1,3 +1,5 @@
+
+# 아두이노 이산화탄소 보정 프로그램.  원래 시리얼 프로그램이 부정확해서 보정함.
 #include <SoftwareSerial.h>
  
 SoftwareSerial mySerial(13, 11);
