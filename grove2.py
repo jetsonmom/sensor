@@ -40,7 +40,7 @@ def main():
             if (current_time - starttime) > sampletime_ms:
                 ratio = lowpulseoccupancy / (sampletime_ms * 10.0)
                 concentration = 1.1 * pow(ratio, 3) - 3.8 * pow(ratio, 2) + 520 * ratio + 0.62
-                
+                # 값이 너무 커서 수정이 필요. concentration = 0.1*pow(ratio,3) - 0.38*pow(ratio,2) + 52*ratio + 0.62;로 보정. 
                 # 원본과 동일한 출력 형식
                 print(f"{int(lowpulseoccupancy)},{ratio:.2f},{concentration:.2f}")
                 
