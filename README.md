@@ -115,9 +115,11 @@ void loop() {
 <b> arduino -> sketch -> library manager-> cm1106 -> install
 ![image](https://github.com/user-attachments/assets/831a870c-7cb9-4df1-96a8-4832fea75dce)
 
-confirm
+<b> confirm
 arduino sketch -> example -> CM1106I2C
-<b>  시리얼 포트를 찾지 못하는 에러네요. 먼저 연결된 시리얼 포트를 확인해보겠습니다.
+
+
+<b>  시리얼 포트를 찾지 못하는 에러 발생 시에. 먼저 연결된 시리얼 포트를 확인해보겠습니다.
 
 1. 연결된 시리얼 포트 확인:
 ```bash
