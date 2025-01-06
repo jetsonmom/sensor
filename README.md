@@ -121,6 +121,11 @@ arduino sketch -> example -> CM1106I2C
 
 <b>  시리얼 포트를 찾지 못하는 에러 발생 시에. 먼저 연결된 시리얼 포트를 확인해보겠습니다.
 
+arduino-> board, port confirm
+![image](https://github.com/user-attachments/assets/a728b2dd-a80d-405b-893b-a4c5ba22d744)
+![image](https://github.com/user-attachments/assets/8c726361-a797-4000-b064-6451c8ea967e)
+
+
 1. 연결된 시리얼 포트 확인:
 ```bash
 ls /dev/tty*
