@@ -145,6 +145,8 @@ lsusb
 sudo usermod -a -G dialout $USER
 sudo chmod 666 /dev/ttyACM0  # 또는 실제 포트 이름
 ```
+<b> 라이브러리에 있는 코드는 쉴드를 사용해야한다. 
+나는 납땜을 해서 하였다.
 
 수정된 코드:
 
